@@ -7,8 +7,8 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.10.RELEASE</version>
     </parent>
-    <groupId>com.zhihu.commercial</groupId>
-    <artifactId>bidding-billing-service</artifactId>
+    <groupId>com.zbx.mysql</groupId>
+    <artifactId>mysql-binlog--adepter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
