@@ -15,4 +15,4 @@ target/
 *.swn
 *.DS_Store
 logs
-bidding-billing-service-api/src/main/java/com/zhihu
+src/main/resources

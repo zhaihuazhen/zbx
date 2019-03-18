@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - [%X{requestId}] %msg%n"/>
+        </Console>
+        <RollingFile name="RollingFile" fileName="/zbx/debug.log"
+                     filePattern="/zbx/%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss:SSS} [%t] %-5level %logger{36} - [%X{requestId}] %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1024 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="5">
+                <Delete basePath="${LOG_PATH}" maxDepth="2">
+                    <IfFileName glob="*.log">
+                        <!--保存 7 天-->
+                        <IfLastModified age="1d">
+                            <IfAny>
+                                <IfAccumulatedFileCount exceeds="5" />
+                            </IfAny>
+                        </IfLastModified>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <Sentry name="Sentry"/>
+        <Async name="Async">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Sentry" level="WARN"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.eclipse.jetty.server.RequestLog" level="INFO" additivity="false">
+            <AppenderRef ref="Async"/>
+        </Logger>
+        <Logger name="org.hibernate" level="info" additivity="false">
+            <AppenderRef ref="Async" />
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Async"/>
+        </Root>
+    </Loggers>
+</Configuration>
